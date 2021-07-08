@@ -1,0 +1,33 @@
+* { box-sizing: border-box }
+
+body {
+  margin: 0;
+  font-family: 'Poppins';
+}
+a,
+a:hover {
+  color: #012650;
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
+
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+header .logo h1 {
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+header nav ul li {
+  display: inline-block;
+}
