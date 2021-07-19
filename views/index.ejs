@@ -2,40 +2,17 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('include/head') %> 
   <title><%= title %></title>
-
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-
-  <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
-<body>
+<body class="homepage">
   <div class="root">
 
-    <header class="container">
-      <div class="logo">
-        <h1>My Blog</h1>
-      </div>
-      <div class="right-wrapper">
 
-        <nav class="nav-menu-outer">
-          <ul>
-            <li><a href="#">Latest</a></li>
-            <li><a href="#">About</a></li>
-          </ul>
-        </nav>
-
-        <div class="menu-wrapper">
-          <div class="menu-button">
-            <span class="line_one"></span>
-            <span class="line_two"></span>
-          </div>
-        </div>
-      </div>
-    </header>
+  <% if (articles) { %>
+   
+    <%- include('include/header') %>
 
 
     <div class="menu">
@@ -46,67 +23,33 @@
 
             <nav class="nav-menu-inner">
               <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Latest</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/new">New Post</a></li>
                 <li><a href="#">About</a></li>
               </ul>
             </nav>
 
             <div class="blog-grid">
 
-              <div class="post">
-                <div class="image">Image</div>
+              <% articles.forEach(e => { %>
 
-                <div class="info">
-
-                  <div class="title">Title</div>
-
-                  <div class="sub-info">
-                    <div class="post-date">9 April 2021</div>
-                    <div class="post-comments">
-                      <span class="icon">Icon</span>
-                      7 Comments
+                <div class="post">
+                  <div class="image">Image</div>
+  
+                  <div class="info">
+  
+                    <a href="/article/<%= e.slug %>"><div class="title"><%= e.title %></div></a>
+  
+                    <div class="sub-info">
+                      <div class="post-date"><%= `${e.createdAt.day} ${e.createdAt.month} ${e.createdAt.year}` %></div>
                     </div>
                   </div>
+  
+  
                 </div>
+               
+              <% }) %>
 
-
-              </div>
-              <div class="post">
-                <div class="image">Image</div>
-
-                <div class="info">
-
-                  <div class="title">Title</div>
-
-                  <div class="sub-info">
-                    <div class="post-date">9 April 2021</div>
-                    <div class="post-comments">
-                      <span class="icon">Icon</span>
-                      7 Comments
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              <div class="post">
-                <div class="image">Image</div>
-
-                <div class="info">
-
-                  <div class="title">Title</div>
-
-                  <div class="sub-info">
-                    <div class="post-date">9 April 2021</div>
-                    <div class="post-comments">
-                      <span class="icon">Icon</span>
-                      7 Comments
-                    </div>
-                  </div>
-                </div>
-
-              </div>
 
             </div>
 
@@ -152,19 +95,14 @@
         <div class="post-title"><%= articles[0].title %></div>
         <div class="description">
           <p>
-            Good news, everyone! There's a report on TV with some very bad news! Then we'll go with that data file!
-            Daylight and everything. If rubbin' frozen dirt in your crotch is wrong, hey I don't wanna be right.<br><br>
-            once I'd like to eat dinner with a celebrity who isn't bound and gagged. I am Singing Wind, Chief of the
-            Martians. No, she'll probably make me do it......
+            <%= articles[0].description %> 
           </p>
         </div>
         <div class="post-tags">
           <div class="tag">Latest</div>
-          <div class="tag">Travel</div>
-          <div class="tag">Adventure</div>
         </div>
         <div class="post-date"><%= `${articles[0].createdAt.day} ${articles[0].createdAt.month} ${articles[0].createdAt.year}` %></div>
-        <a href="#" class="post-link">
+        <a href="/article/<%= articles[0].slug %> " class="post-link">
           <div class="hero-button">Read More</div>
         </a>
       </div>
@@ -183,8 +121,8 @@
           <div class="post">
             <div class="image">Image</div>
             <div class="info">
-              <div class="category">Travel</div>
-              <div class="title"><%= e.title %></div>
+              <div class=""><form action="/<%= e.id %>/delete?_method=DELETE" method="POST"><button style="background: none; outline: none; border: none; box-shadow: none; cursor: pointer; padding: 0;margin: 0;" class="category" type="submit">Delete</button></form></div>
+              <a href="/article/<%= e.slug %> "><div class="title"><%= e.title %></div></a>
               <div class="post-date"><%= `${e.createdAt.day} ${e.createdAt.month} ${e.createdAt.year}` %></div>
             </div>
           </div>
@@ -195,13 +133,24 @@
 
     </div>
 
-    <footer>
-      <p class="copyright">©Copyright Neon 2021</p>
-    </footer>
 
-  </div>
 
-  <script src="/javascripts/main.js"></script>
+  <% }  else { %>
+
+    <div class="heading">
+      <h2>No Blog Found</h2>
+    </div>
+    <div class="heading">
+      <a style="color: #E83F52;" href="/new">Create New Blog</a>
+    </div>
+
+  <% } %>
+  
+  <%- include('include/footer') %> 
+
+</div>
+  
+  
 </body>
 
 </html>

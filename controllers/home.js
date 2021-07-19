@@ -1,27 +1,28 @@
+const articles = require('../models/articles');
+const Article = require('../models/articles')
+
 exports.homepage = function(req, res, next) {
 
-    const articles = [{
-        title: 'Test1 Title',
-        createdAt:  {
-            day: new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date()),
-            month: new Intl.DateTimeFormat('en', { month: 'short' }).format(new Date()),
-            year: new Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date())
-        }
-    }, {
-        title: 'Test2 Title',
-        createdAt:  {
-            day: new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date()),
-            month: new Intl.DateTimeFormat('en', { month: 'short' }).format(new Date()),
-            year: new Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date())
-        }
-    }, {
-        title: 'Test3 Title',
-        createdAt: {
-            day: new Intl.DateTimeFormat('en', { day: '2-digit' }).format(new Date()),
-            month: new Intl.DateTimeFormat('en', { month: 'short' }).format(new Date()),
-            year: new Intl.DateTimeFormat('en', { year: 'numeric' }).format(new Date())
-        }
-    }]
 
-    res.render('index', { title: 'My Blog', articles: articles || null });
+    Article.find().sort({ createdAt: 'desc' }).then(r => {
+        console.log(r)
+        const articles = []
+        r.forEach(e => {
+            const article = {
+                slug: e.slug,
+                id: e._id,
+                title: e.title,
+                description: e.description,
+                markdown: e.markdown,
+                createdAt: {
+                    day: new Intl.DateTimeFormat('en', { day: '2-digit' }).format(r.createdAt),
+                    month: new Intl.DateTimeFormat('en', { month: 'short' }).format(r.createdAt),
+                    year: new Intl.DateTimeFormat('en', { year: 'numeric' }).format(r.createdAt)
+                }
+            }
+            articles.push(article)
+        })
+        res.render('index', { title: 'My Blog', articles: articles.length ? articles : null });
+    })
+
 }
